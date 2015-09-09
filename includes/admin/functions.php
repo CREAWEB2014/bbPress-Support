@@ -2,22 +2,26 @@
 /**
  * Admin Functions
  *
- * @package		EDD\BBP\Admin\Functions
- * @since		2.1
+ * @package        EDD\BBP\Admin\Functions
+ * @since          2.1
  */
 
 
 // Exit if accessed directly
-if( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 /**
  * The support forum checkbox will add resolved / not resolved status to all forums.
  * The premium forum will create a support forum that can only be viewed by that user and admin users.
  *
- * @since		1.0
- * @param		int $forum_id The ID of this forum
- * @return		void
+ * @since        1.0
+ *
+ * @param        int $forum_id The ID of this forum
+ *
+ * @return        void
  */
 function give_bbp_extend_forum_attributes_mb( $forum_id ) {
 	// Get out the forum meta
@@ -46,15 +50,18 @@ function give_bbp_extend_forum_attributes_mb( $forum_id ) {
 	</p>
 	<?php
 }
-add_action( 'bbp_forum_metabox' , 'bbps_extend_forum_attributes_mb' );
+
+add_action( 'bbp_forum_metabox', 'bbps_extend_forum_attributes_mb' );
 
 
 /**
  * Save the metabox
  *
- * @since		1.0
- * @param		int $forum_id The ID of this forum
- * @return		int $forum_id The ID of this forum
+ * @since        1.0
+ *
+ * @param        int $forum_id The ID of this forum
+ *
+ * @return        int $forum_id The ID of this forum
  */
 function give_bbp_forum_attributes_mb_save( $forum_id ) {
 	//get out the forum meta
@@ -83,45 +90,50 @@ function give_bbp_forum_attributes_mb_save( $forum_id ) {
 
 	return $forum_id;
 }
-add_action( 'bbp_forum_attributes_metabox_save' , 'bbps_forum_attributes_mb_save' );
+
+add_action( 'bbp_forum_attributes_metabox_save', 'bbps_forum_attributes_mb_save' );
 
 
 /**
  * Checkbox validation callback
  *
- * @since		1.0
- * @param		array $input The field input
- * @return		array $newoptions The sanitized input
+ * @since        1.0
+ *
+ * @param        array $input The field input
+ *
+ * @return        array $newoptions The sanitized input
  */
 function give_bbp_validate_checkbox_group( $input ) {
-    // Update only the needed options
-    foreach ( $input as $key => $value ) {
-        $newoptions[ $key ] = $value;
-    }
+	// Update only the needed options
+	foreach ( $input as $key => $value ) {
+		$newoptions[ $key ] = $value;
+	}
 
-    // Return all options
-    return $newoptions;
+	// Return all options
+	return $newoptions;
 }
 
 
 /**
  * General validation callback
  *
- * @since		1.0
- * @param		array $input The field input
- * @return		array $newoptions The sanitized input
+ * @since        1.0
+ *
+ * @param        array $input The field input
+ *
+ * @return        array $newoptions The sanitized input
  */
 function give_bbp_validate_options( $input ) {
-	$options = get_option('_bbps_reply_count');
+	$options = get_option( '_bbps_reply_count' );
 
 	$i = 1;
 
 	foreach ( $input as $array ) {
 		foreach ( $array as $key => $value ) {
-		      $options[ $i ][ $key ] = $value;
+			$options[ $i ][ $key ] = $value;
 		}
-		$i++;
+		$i ++;
 	}
 
-    return $options;
+	return $options;
 }

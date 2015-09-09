@@ -2,24 +2,26 @@
 /**
  * Actions
  *
- * @package		EDD\BBP\Actions
- * @since		1.0.0
+ * @package        EDD\BBP\Actions
+ * @since          1.0.0
  */
 
 
 // Exit if accessed directly
-if( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 
 /**
  * Process actions
  *
- * @since		1.0.0
- * @return		void
+ * @since        1.0.0
+ * @return        void
  */
 function give_bbp_actions() {
 
-	if( ! current_user_can( 'moderate' ) ) {
+	if ( ! current_user_can( 'moderate' ) ) {
 		return;
 	}
 
@@ -39,4 +41,5 @@ function give_bbp_actions() {
 		add_post_meta( absint( $_POST['bbps_topic_id'] ), '_bbp_override_auto_close', '1' );
 	}
 }
+
 add_action( 'init', 'give_bbp_actions' );
