@@ -861,12 +861,12 @@ function wi_bbp_close_old_tickets_and_notify() {
 
 		$emails = EDD()->emails;
 		$emails->__set( 'from_address', 'no-reply@givewp.com' );
-		$emails->heading = 'Support Alert';
+		$emails->heading = __( 'Support Alert', 'wi_bbp' );
 
 		$website = get_bloginfo( 'url' );
 
 		$headers = $emails->get_headers();
-		$headers .= "Bcc: devin@wordimpress.com,matt@wordimpress.com\r\n";
+		$headers .= "Bcc:devin@wordimpress.com,matt@wordimpress.com\r\n";
 
 		foreach ( $tickets as $ticket ) {
 
@@ -881,10 +881,10 @@ function wi_bbp_close_old_tickets_and_notify() {
 
 			$message = "Hello {$author_name},\n\n";
 			$message .= __( "This email is to alert you that your support topic titled {$ticket->post_title} at {$website} has been automatically closed due to inactivity.\n\n", 'wi_bpp' );
-			$message .= __( "If you believe this is in error or you are still needing assistance with this issue, simply reply to the ticket again and let us know: \n\n", 'wi_bpp' );;
-			$message .= __( "Ticket URL: {$url}", 'wi_bpp' );;
+			$message .= __( "If you believe this is in error or you are still needing assistance with this issue, simply reply to the ticket again and let us know: \n\n", 'wi_bpp' );
+			$message .= __( "Ticket URL: {$url}", 'wi_bpp' );
 
-			$emails->send( $to, __('Support Ticket Closed', 'wi_bpp'), $message );
+			$emails->send( $to, __( 'Support Ticket Closed', 'wi_bpp' ), $message );
 
 			update_post_meta( $ticket->ID, '_bbps_topic_status', '2' );
 
@@ -918,7 +918,7 @@ function wi_bbp_ping_topic_assignee() {
 		A ticket that has been assigned to you is in need of attention.
 		$post_link
 EMAILMSG;
-		wp_mail( $user_email, 'EDD Ticket Ping', $message );
+		wp_mail( $user_email, __( 'Support Ticket Ping', 'wi_bbp' ), $message );
 	}
 }
 
