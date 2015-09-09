@@ -17,22 +17,22 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_actions() {
+function wi_bbp_actions() {
 
 	if ( ! current_user_can( 'moderate' ) ) {
 		return;
 	}
 
 	if ( ! empty( $_POST['bbps_support_topic_assign'] ) ) {
-		give_bbp_assign_topic( $_POST );
+		wi_bbp_assign_topic( $_POST );
 	}
 
 	if ( ! empty( $_POST['bbps_support_submit'] ) ) {
-		give_bbp_update_status( $_POST );
+		wi_bbp_update_status( $_POST );
 	}
 
 	if ( ! empty( $_POST['bbps_topic_ping_submit'] ) ) {
-		give_bbp_ping_topic_assignee( $_POST );
+		wi_bbp_ping_topic_assignee( $_POST );
 	}
 
 	if ( ! empty( $_POST['bbps_topic_keep_open_submit'] ) ) {
@@ -40,4 +40,4 @@ function give_bbp_actions() {
 	}
 }
 
-add_action( 'init', 'give_bbp_actions' );
+add_action( 'init', 'wi_bbp_actions' );

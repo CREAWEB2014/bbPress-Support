@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return        array $staff The array of mods
  */
-function give_bbp_get_all_mods( $admins_only = false ) {
+function wi_bbp_get_all_mods( $admins_only = false ) {
 	$wp_user_search = new WP_User_Query( array( 'role' => 'administrator' ) );
 	$staff          = $wp_user_search->get_results();
 
@@ -47,8 +47,8 @@ function give_bbp_get_all_mods( $admins_only = false ) {
  *
  * @return        array $staff The array of mods
  */
-function give_bbp_d_get_all_mods( $admins_only = false ) {
-	return give_bbp_get_all_mods( $admins_only );
+function wi_bbp_d_get_all_mods( $admins_only = false ) {
+	return wi_bbp_get_all_mods( $admins_only );
 }
 
 
@@ -61,7 +61,7 @@ function give_bbp_d_get_all_mods( $admins_only = false ) {
  *
  * @return        string $status The status of the topic
  */
-function give_bbp_get_topic_status( $topic_id ) {
+function wi_bbp_get_topic_status( $topic_id ) {
 	$default = 1;
 
 	$status = get_post_meta( $topic_id, '_bbps_topic_status', true );
@@ -97,8 +97,8 @@ function give_bbp_get_topic_status( $topic_id ) {
  *
  * @return        string $status The status of the topic
  */
-function give_bbp_d_get_topic_status( $topic_id ) {
-	return give_bbp_get_topic_status( $topic_id );
+function wi_bbp_d_get_topic_status( $topic_id ) {
+	return wi_bbp_get_topic_status( $topic_id );
 }
 
 
@@ -112,7 +112,7 @@ function give_bbp_d_get_topic_status( $topic_id ) {
  *
  * @return        void
  */
-function give_bbp_generate_status_options( $topic_id ) {
+function wi_bbp_generate_status_options( $topic_id ) {
 	$status  = get_post_meta( $topic_id, '_bbps_topic_status', true );
 	$default = 1;
 
@@ -153,8 +153,8 @@ function give_bbp_generate_status_options( $topic_id ) {
  *
  * @return        void
  */
-function give_bbp_d_generate_status_options( $topic_id ) {
-	give_bbp_generate_status_options( $topic_id );
+function wi_bbp_d_generate_status_options( $topic_id ) {
+	wi_bbp_generate_status_options( $topic_id );
 }
 
 
@@ -164,7 +164,7 @@ function give_bbp_d_generate_status_options( $topic_id ) {
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_update_status() {
+function wi_bbp_update_status() {
 	$topic_id = absint( $_POST['bbps_topic_id'] );
 	$status   = sanitize_text_field( $_POST['bbps_support_option'] );
 	update_post_meta( $topic_id, '_bbps_topic_status', $status );
@@ -181,7 +181,7 @@ function give_bbp_update_status() {
  * @return        int The number of assigned tickets
  * @todo         This function is known to be buggy!
  */
-function give_bbp_count_tickets_of_mod( $mod_id = 0 ) {
+function wi_bbp_count_tickets_of_mod( $mod_id = 0 ) {
 	$args = array(
 		'post_type'           => 'topic',
 		'meta_query'          => array(
@@ -211,10 +211,10 @@ function give_bbp_count_tickets_of_mod( $mod_id = 0 ) {
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_assign_topic_form() {
+function wi_bbp_assign_topic_form() {
 	$topic_id       = bbp_get_topic_id();
 	$forum_id       = bbp_get_forum_id();
-	$topic_assigned = give_bbp_get_topic_assignee_id( $topic_id );
+	$topic_assigned = wi_bbp_get_topic_assignee_id( $topic_id );
 
 	global $current_user;
 	get_currentuserinfo();
@@ -240,14 +240,14 @@ function give_bbp_assign_topic_form() {
 			<?php
 			$user_login = $current_user->user_login;
 			if ( ! empty( $topic_assigned ) ) {
-				$assigned_user_name = give_bbp_get_topic_assignee_name( $topic_assigned ); ?>
+				$assigned_user_name = wi_bbp_get_topic_assignee_name( $topic_assigned ); ?>
 				<div class='bbps-support-forums-message'> Topic assigned to: <?php echo $assigned_user_name; ?></div><?php
 			}
 			?>
 			<div id="bbps_support_topic_assign">
 				<form id="bbps-topic-assign" name="bbps_support_topic_assign" action="" method="post">
 					<?php
-					$all_users       = give_bbp_get_all_mods();
+					$all_users       = wi_bbp_get_all_mods();
 					$claimed_user_id = get_post_meta( $topic_id, 'bbps_topic_assigned', true );
 
 					if ( ! empty( $all_users ) ) : ?>
@@ -303,7 +303,7 @@ function give_bbp_assign_topic_form() {
 	<?php
 }
 
-add_action( 'bbp_template_before_single_topic', 'give_bbp_assign_topic_form' );
+add_action( 'bbp_template_before_single_topic', 'wi_bbp_assign_topic_form' );
 
 /**
  * Send message on ticket assignment
@@ -311,7 +311,7 @@ add_action( 'bbp_template_before_single_topic', 'give_bbp_assign_topic_form' );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_assign_topic() {
+function wi_bbp_assign_topic() {
 	$user_id  = absint( $_POST['bbps_assign_list'] );
 	$topic_id = absint( $_POST['bbps_topic_id'] );
 
@@ -345,7 +345,7 @@ EMAILMSG;
  *
  * @return        void
  */
-function give_bbp_modify_title( $title, $topic_id = 0 ) {
+function wi_bbp_modify_title( $title, $topic_id = 0 ) {
 	$topic_id = bbp_get_topic_id( $topic_id );
 
 	// 2 is the resolved status ID
@@ -355,7 +355,7 @@ function give_bbp_modify_title( $title, $topic_id = 0 ) {
 
 }
 
-add_action( 'bbp_theme_before_topic_title', 'give_bbp_modify_title' );
+add_action( 'bbp_theme_before_topic_title', 'wi_bbp_modify_title' );
 
 
 /**
@@ -368,7 +368,7 @@ add_action( 'bbp_theme_before_topic_title', 'give_bbp_modify_title' );
  *
  * @return        mixed
  */
-function give_bbp_add_topic_meta( $topic_id = 0, $topic ) {
+function wi_bbp_add_topic_meta( $topic_id = 0, $topic ) {
 	// Bail if this isn't a support topic
 	if ( $topic->post_type != 'topic' ) {
 		return;
@@ -383,7 +383,7 @@ function give_bbp_add_topic_meta( $topic_id = 0, $topic ) {
 	add_post_meta( $topic_id, '_bbps_topic_pending', '1' );
 }
 
-add_action( 'wp_insert_post', 'give_bbp_add_topic_meta', 10, 2 );
+add_action( 'wp_insert_post', 'wi_bbp_add_topic_meta', 10, 2 );
 
 
 /**
@@ -399,7 +399,7 @@ add_action( 'wp_insert_post', 'give_bbp_add_topic_meta', 10, 2 );
  *
  * @return        void
  */
-function give_bbp_maybe_remove_pending( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author ) {
+function wi_bbp_maybe_remove_pending( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author ) {
 	if ( user_can( $reply_author, 'moderate' ) ) {
 		// If the new reply is posted by the assignee, remove the pending flag
 		delete_post_meta( $topic_id, '_bbps_topic_pending' );
@@ -409,7 +409,7 @@ function give_bbp_maybe_remove_pending( $reply_id, $topic_id, $forum_id, $anonym
 	}
 }
 
-add_action( 'bbp_new_reply', 'give_bbp_maybe_remove_pending', 20, 5 );
+add_action( 'bbp_new_reply', 'wi_bbp_maybe_remove_pending', 20, 5 );
 
 
 /**
@@ -418,7 +418,7 @@ add_action( 'bbp_new_reply', 'give_bbp_maybe_remove_pending', 20, 5 );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_bulk_remove_pending() {
+function wi_bbp_bulk_remove_pending() {
 	if ( ! current_user_can( 'moderate' ) ) {
 		return;
 	}
@@ -434,7 +434,7 @@ function give_bbp_bulk_remove_pending() {
 	}
 }
 
-add_action( 'give_remove_ticket_pending_status', 'give_bbp_bulk_remove_pending', 20, 5 );
+add_action( 'wi_remove_ticket_pending_status', 'wi_bbp_bulk_remove_pending', 20, 5 );
 
 
 /**
@@ -450,13 +450,13 @@ add_action( 'give_remove_ticket_pending_status', 'give_bbp_bulk_remove_pending',
  *
  * @return        void
  */
-function give_bbp_assign_on_reply( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author ) {
-	if ( ! give_bbp_get_topic_assignee_id( $topic_id ) && user_can( $reply_author, 'moderate' ) ) {
+function wi_bbp_assign_on_reply( $reply_id, $topic_id, $forum_id, $anonymous_data, $reply_author ) {
+	if ( ! wi_bbp_get_topic_assignee_id( $topic_id ) && user_can( $reply_author, 'moderate' ) ) {
 		update_post_meta( $topic_id, 'bbps_topic_assigned', $reply_author );
 	}
 }
 
-add_action( 'bbp_new_reply', 'give_bbp_assign_on_reply', 20, 5 );
+add_action( 'bbp_new_reply', 'wi_bbp_assign_on_reply', 20, 5 );
 
 
 /**
@@ -465,7 +465,7 @@ add_action( 'bbp_new_reply', 'give_bbp_assign_on_reply', 20, 5 );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_force_remove_pending() {
+function wi_bbp_force_remove_pending() {
 	if ( ! isset( $_GET['topic_id'] ) ) {
 		return;
 	} elseif ( ! isset( $_GET['bbps_action'] ) || $_GET['bbps_action'] != 'remove_pending' ) {
@@ -479,7 +479,7 @@ function give_bbp_force_remove_pending() {
 	exit;
 }
 
-add_action( 'init', 'give_bbp_force_remove_pending' );
+add_action( 'init', 'wi_bbp_force_remove_pending' );
 
 
 /**
@@ -488,16 +488,16 @@ add_action( 'init', 'give_bbp_force_remove_pending' );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_add_user_purchases_link() {
+function wi_bbp_add_user_purchases_link() {
 	if ( ! current_user_can( 'moderate' ) ) {
 		return;
-	} elseif ( ! function_exists( 'give_get_users_purchases' ) ) {
+	} elseif ( ! function_exists( 'wi_get_users_purchases' ) ) {
 		return;
 	}
 
 	$user_email = bbp_get_displayed_user_field( 'user_email' );
 
-	echo '<div class="give_users_purchases">';
+	echo '<div class="wi_users_purchases">';
 	echo '<h4>User\'s Purchases:</h4>';
 	$purchases = edd_get_users_purchases( $user_email, 100, false, 'any' );
 	if ( $purchases ) :
@@ -510,12 +510,12 @@ function give_bbp_add_user_purchases_link() {
 				echo '<li>' . get_the_title( $download['id'] ) . ' - ' . date( 'F j, Y', strtotime( $purchase->post_date ) ) . '</li>';
 			}
 
-			if ( function_exists( 'give_software_licensing' ) ) {
+			if ( function_exists( 'wi_software_licensing' ) ) {
 				echo '<li><strong>Licenses:</strong></li>';
-				$licenses = give_software_licensing()->get_licenses_of_purchase( $purchase->ID );
+				$licenses = wi_software_licensing()->get_licenses_of_purchase( $purchase->ID );
 				if ( $licenses ) {
 					foreach ( $licenses as $license ) {
-						echo '<li>' . get_the_title( $license->ID ) . ' - ' . give_software_licensing()->get_license_status( $license->ID ) . '</li>';
+						echo '<li>' . get_the_title( $license->ID ) . ' - ' . wi_software_licensing()->get_license_status( $license->ID ) . '</li>';
 					}
 				}
 				echo '<li><hr/></li>';
@@ -528,7 +528,7 @@ function give_bbp_add_user_purchases_link() {
 	echo '</div>';
 }
 
-add_action( 'bbp_template_after_user_profile', 'give_bbp_add_user_purchases_link' );
+add_action( 'bbp_template_after_user_profile', 'wi_bbp_add_user_purchases_link' );
 
 
 /**
@@ -537,7 +537,7 @@ add_action( 'bbp_template_after_user_profile', 'give_bbp_add_user_purchases_link
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_add_user_priority_support_status() {
+function wi_bbp_add_user_priority_support_status() {
 	if ( ! current_user_can( 'moderate' ) ) {
 		return;
 	} elseif ( ! function_exists( 'rcp_get_status' ) ) {
@@ -558,7 +558,7 @@ function give_bbp_add_user_priority_support_status() {
 	echo '</div>';
 }
 
-add_action( 'bbp_template_after_user_profile', 'give_bbp_add_user_priority_support_status' );
+add_action( 'bbp_template_after_user_profile', 'wi_bbp_add_user_priority_support_status' );
 
 
 /**
@@ -575,7 +575,7 @@ add_action( 'bbp_template_after_user_profile', 'give_bbp_add_user_priority_suppo
  *
  * @return        void
  */
-function give_bbp_reply_and_resolve( $reply_id = 0, $topic_id = 0, $forum_id = 0, $anonymous_data = false, $author_id = 0, $is_edit = false ) {
+function wi_bbp_reply_and_resolve( $reply_id = 0, $topic_id = 0, $forum_id = 0, $anonymous_data = false, $author_id = 0, $is_edit = false ) {
 	if ( isset( $_POST['bbp_reply_close'] ) ) {
 		update_post_meta( $topic_id, '_bbps_topic_status', 2 );
 	}
@@ -585,16 +585,16 @@ function give_bbp_reply_and_resolve( $reply_id = 0, $topic_id = 0, $forum_id = 0
 	}
 }
 
-add_action( 'bbp_new_reply', 'give_bbp_reply_and_resolve', 0, 6 );
+add_action( 'bbp_new_reply', 'wi_bbp_reply_and_resolve', 0, 6 );
 
 
 /**
- * EDD Forum Sidebar
+ * Forum Sidebar
  *
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_sidebar() {
+function wi_bbp_sidebar() {
 	global $post;
 
 	$user_id   = get_the_author_meta( 'ID' );
@@ -603,7 +603,7 @@ function give_bbp_sidebar() {
 	?>
 	<div class="box">
 
-		<?php do_action( 'give_bbp_sidebar' ); ?>
+		<?php do_action( 'wi_bbp_sidebar' ); ?>
 
 		<h3><?php echo get_the_author_meta( 'first_name' ) . '  ' . get_the_author_meta( 'last_name' ); ?></h3>
 
@@ -627,31 +627,31 @@ function give_bbp_sidebar() {
 		</div>
 		<!-- /.rcp_support_status -->
 
-		<div class="give_users_purchases">
+		<div class="wi_users_purchases">
 			<h4>User's Purchases:</h4>
 			<?php
-			$purchases = give_get_users_purchases( $user_data->user_email, 100, false, 'any' );
+			$purchases = wi_get_users_purchases( $user_data->user_email, 100, false, 'any' );
 			if ( $purchases ) :
 				echo '<ul>';
 				foreach ( $purchases as $purchase ) {
 
 					echo '<li>';
 
-					echo '<strong><a href="' . admin_url( 'edit.php?post_type=download&page=give-payment-history&view=view-order-details&id=' . $purchase->ID ) . '">#' . $purchase->ID . ' - ' . give_get_payment_status( $purchase, true ) . '</a></strong><br/>';
+					echo '<strong><a href="' . admin_url( 'edit.php?post_type=download&page=give-payment-history&view=view-order-details&id=' . $purchase->ID ) . '">#' . $purchase->ID . ' - ' . wi_get_payment_status( $purchase, true ) . '</a></strong><br/>';
 
-					$downloads = give_get_payment_meta_downloads( $purchase->ID );
+					$downloads = wi_get_payment_meta_downloads( $purchase->ID );
 					foreach ( $downloads as $download ) {
 						echo get_the_title( $download['id'] ) . ' - ' . date( 'F j, Y', strtotime( $purchase->post_date ) ) . '<br/>';
 					}
 
-					if ( function_exists( 'give_software_licensing' ) ) {
-						$licenses = give_software_licensing()->get_licenses_of_purchase( $purchase->ID );
+					if ( function_exists( 'wi_software_licensing' ) ) {
+						$licenses = wi_software_licensing()->get_licenses_of_purchase( $purchase->ID );
 						if ( $licenses ) {
 							echo '<strong>Licenses:</strong><br/>';
 							foreach ( $licenses as $license ) {
-								$key = give_software_licensing()->get_license_key( $license->ID );
+								$key = wi_software_licensing()->get_license_key( $license->ID );
 								echo '<a href="' . admin_url( 'edit.php?post_type=download&page=give-licenses&s=' . $key ) . '">' . $key . '</a>';
-								echo ' - ' . give_software_licensing()->get_license_status( $license->ID );
+								echo ' - ' . wi_software_licensing()->get_license_status( $license->ID );
 								echo '<br/>';
 							}
 						}
@@ -668,10 +668,6 @@ function give_bbp_sidebar() {
 	<?php
 }
 
-function give_bbp_d_sidebar() {
-	give_bbp_sidebar();
-}
-
 
 /**
  * Get assignee ID
@@ -682,7 +678,7 @@ function give_bbp_d_sidebar() {
  *
  * @return        int $topic_assignee_id The ID of the assignee
  */
-function give_bbp_get_topic_assignee_id( $topic_id = null ) {
+function wi_bbp_get_topic_assignee_id( $topic_id = null ) {
 	if ( empty( $topic_id ) ) {
 		$topic_id = get_the_ID();
 	}
@@ -706,7 +702,7 @@ function give_bbp_get_topic_assignee_id( $topic_id = null ) {
  *
  * @return        string $topic_assignee_name The name of the assignee
  */
-function give_bbp_get_topic_assignee_name( $user_id = null ) {
+function wi_bbp_get_topic_assignee_name( $user_id = null ) {
 	if ( empty( $user_id ) ) {
 		return false;
 	}
@@ -734,7 +730,7 @@ function give_bbp_get_topic_assignee_name( $user_id = null ) {
  *
  * @return        void
  */
-function give_bbp_send_priority_to_slack( $topic_id = 0, $forum_id = 0, $anonymous_data = false, $topic_author = 0 ) {
+function wi_bbp_send_priority_to_slack( $topic_id = 0, $forum_id = 0, $anonymous_data = false, $topic_author = 0 ) {
 	// Bail if topic is not published
 	if ( ! bbp_is_topic_published( $topic_id ) ) {
 		return;
@@ -762,7 +758,7 @@ function give_bbp_send_priority_to_slack( $topic_id = 0, $forum_id = 0, $anonymo
 	wp_remote_post( 'https://hooks.slack.com/services/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', $args );
 }
 
-add_action( 'bbp_new_topic', 'give_bbp_send_priority_to_slack', 10, 4 );
+add_action( 'bbp_new_topic', 'wi_bbp_send_priority_to_slack', 10, 4 );
 
 
 /**
@@ -771,7 +767,7 @@ add_action( 'bbp_new_topic', 'give_bbp_send_priority_to_slack', 10, 4 );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_connect_forum_to_docs() {
+function wi_bbp_connect_forum_to_docs() {
 	p2p_register_connection_type( array(
 		'name' => 'forums_to_docs',
 		'from' => 'forum',
@@ -779,7 +775,7 @@ function give_bbp_connect_forum_to_docs() {
 	) );
 }
 
-add_action( 'p2p_init', 'give_bbp_connect_forum_to_docs' );
+add_action( 'p2p_init', 'wi_bbp_connect_forum_to_docs' );
 
 
 /**
@@ -788,7 +784,7 @@ add_action( 'p2p_init', 'give_bbp_connect_forum_to_docs' );
  * @since        1.0.0
  * @return        void
  */
-function give_bbp_display_connected_docs() {
+function wi_bbp_display_connected_docs() {
 	if ( ! current_user_can( 'moderate' ) ) {
 		return;
 	}
@@ -801,7 +797,7 @@ function give_bbp_display_connected_docs() {
 	// Display connected pages
 	if ( $docs ) {
 		?>
-		<div class="give_bbp_support_forum_options">
+		<div class="wi_bbp_support_forum_options">
 			<?php if ( bbp_is_single_topic() ) { ?>
 				<h3>Related Documentation:</h3>
 			<?php } else { ?>
@@ -820,8 +816,8 @@ function give_bbp_display_connected_docs() {
 	}
 }
 
-add_action( 'bbp_template_before_single_forum', 'give_bbp_display_connected_docs' );
-add_action( 'give_bbp_sidebar', 'give_bbp_display_connected_docs' );
+add_action( 'bbp_template_before_single_forum', 'wi_bbp_display_connected_docs' );
+add_action( 'wi_bbp_sidebar', 'wi_bbp_display_connected_docs' );
 
 
 /**
@@ -830,7 +826,7 @@ add_action( 'give_bbp_sidebar', 'give_bbp_display_connected_docs' );
  * @since        1.0
  * @return        void
  */
-function give_bbp_close_old_tickets_and_notify() {
+function wi_bbp_close_old_tickets_and_notify() {
 
 	$args    = array(
 		'post_type'           => 'topic',
@@ -867,6 +863,8 @@ function give_bbp_close_old_tickets_and_notify() {
 		$emails->__set( 'from_address', 'no-reply@givewp.com' );
 		$emails->heading = 'Support Alert';
 
+		$website = get_bloginfo( 'url' );
+
 		$headers = $emails->get_headers();
 		$headers .= "Bcc: devin@wordimpress.com,matt@wordimpress.com\r\n";
 
@@ -882,11 +880,11 @@ function give_bbp_close_old_tickets_and_notify() {
 			$to[] = $author_email;
 
 			$message = "Hello {$author_name},\n\n";
-			$message .= "This email is to alert you that your ticket titled {$ticket->post_title} at https://givewp.com has been automatically closed due to inactivity.\n\n";
-			$message .= "If you believe this is in error or you are still needing assistance with this issue, simply reply to the ticket again and let us know: \n\n";
-			$message .= "Ticket URL: {$url}";
+			$message .= __( "This email is to alert you that your support topic titled {$ticket->post_title} at {$website} has been automatically closed due to inactivity.\n\n", 'wi_bpp' );
+			$message .= __( "If you believe this is in error or you are still needing assistance with this issue, simply reply to the ticket again and let us know: \n\n", 'wi_bpp' );;
+			$message .= __( "Ticket URL: {$url}", 'wi_bpp' );;
 
-			$emails->send( $to, 'Support Ticket Closed', $message );
+			$emails->send( $to, __('Support Ticket Closed', 'wi_bpp'), $message );
 
 			update_post_meta( $ticket->ID, '_bbps_topic_status', '2' );
 
@@ -899,7 +897,7 @@ function give_bbp_close_old_tickets_and_notify() {
 
 }
 
-add_action( 'give_daily_scheduled_events', 'give_bbp_close_old_tickets_and_notify' );
+add_action( 'wi_daily_scheduled_events', 'wi_bbp_close_old_tickets_and_notify' );
 
 /**
  * Emails a moderator a reminder when the Ping Assignee button is clicked
@@ -907,7 +905,7 @@ add_action( 'give_daily_scheduled_events', 'give_bbp_close_old_tickets_and_notif
  * @since        1.0
  * @return        void
  */
-function give_bbp_ping_topic_assignee() {
+function wi_bbp_ping_topic_assignee() {
 	$topic_id = absint( $_POST['bbps_topic_id'] );
 	$user_id  = get_post_meta( $topic_id, 'bbps_topic_assigned', true );
 
@@ -924,7 +922,7 @@ EMAILMSG;
 	}
 }
 
-function give_bbp_common_issues() {
+function wi_bbp_common_issues() {
 
 	if ( bbp_is_topic_edit() ) {
 		return;
@@ -1001,14 +999,12 @@ function give_bbp_common_issues() {
 				</div>
 			</div>
 			<div id="give-bbp-google-search" style="display:none">
-				<p>Enter keywords to search for documentation or similar tickets to your issue.</p>
+				<p><?php _e( 'Enter keywords to search for documentation or similar tickets to your issue.', 'wi_bpp' ); ?></p>
 
 				<?php if ( bbp_allow_search() ) : ?>
 
 					<div class="bbp-search-form">
-
 						<?php bbp_get_template_part( 'form', 'search' ); ?>
-
 					</div>
 
 				<?php endif; ?>
@@ -1019,7 +1015,7 @@ function give_bbp_common_issues() {
 	<?php
 }
 
-add_action( 'bbp_theme_before_topic_form_notices', 'give_bbp_common_issues' );
+add_action( 'bbp_theme_before_topic_form_notices', 'wi_bbp_common_issues' );
 
 /**
  * Store docs were helpful selection
@@ -1033,54 +1029,55 @@ add_action( 'bbp_theme_before_topic_form_notices', 'give_bbp_common_issues' );
  *
  * @return        void
  */
-function give_bbp_store_docs_helpful_selection( $topic_id = 0, $forum_id = 0, $anonymous_data = false, $topic_author = 0 ) {
+function wi_bbp_store_docs_helpful_selection( $topic_id = 0, $forum_id = 0, $anonymous_data = false, $topic_author = 0 ) {
 
 	if ( empty( $_POST['give-bbp-docs-help'] ) ) {
 		return;
 	}
 
 	$helpful = absint( $_POST['give-bbp-docs-help'] );
-	add_post_meta( $topic_id, '_give_bbp_docs_helpful', $helpful );
+	add_post_meta( $topic_id, '_wi_bbp_docs_helpful', $helpful );
 
 }
 
-add_action( 'bbp_new_topic', 'give_bbp_store_docs_helpful_selection', 20, 4 );
+add_action( 'bbp_new_topic', 'wi_bbp_store_docs_helpful_selection', 20, 4 );
 
-function give_bbp_show_docs_helpful_selection() {
+function wi_bbp_show_docs_helpful_selection() {
 
-	static $give_bbp_doc_notice;
+	static $wi_bbp_doc_notice;
 
-	$helpful = get_post_meta( bbp_get_topic_id(), '_give_bbp_docs_helpful', true );
+	$helpful = get_post_meta( bbp_get_topic_id(), '_wi_bbp_docs_helpful', true );
 	if ( empty( $helpful ) || ! current_user_can( 'moderate' ) ) {
 		return;
 	}
 
-	if ( $give_bbp_doc_notice ) {
+	if ( $wi_bbp_doc_notice ) {
 		return;
 	}
 
 	?>
 	<div class="bbp-template-notice give-bbp-docs-helpful">
 		<p>
-			<?php if ( 1 == $helpful ) : ?>
-				Docs were not helpful
-			<?php elseif ( 2 == $helpful ) : ?>
-				Did not find relevant docs
-			<?php else : ?>
-				Did not read docs
-			<?php endif; ?>
+			<?php if ( 1 == $helpful ) {
+				_e( 'Docs were not helpful', 'wi_bpp' );
+			} elseif ( 2 == $helpful ) {
+				_e( 'Did not find relevant docs', 'wi_bpp' );
+			} else {
+				_e( 'Did not read docs', 'wi_bpp' );
+			}
+			?>
 		</p>
 	</div>
 	<?php
-	$give_bbp_doc_notice = true;
+	$wi_bbp_doc_notice = true;
 }
 
-add_action( 'bbp_theme_after_reply_content', 'give_bbp_show_docs_helpful_selection' );
+add_action( 'bbp_theme_after_reply_content', 'wi_bbp_show_docs_helpful_selection' );
 
 /**
  * Send a Pushover Notification when a moderator is assigned to a topic
  */
-function give_bbp_send_pushover_notification_on_assignment() {
+function wi_bbp_send_pushover_notification_on_assignment() {
 	if ( isset( $_POST['bbps_support_topic_assign'] ) ) {
 
 		if ( ! function_exists( 'ckpn_send_notification' ) ) {
@@ -1091,13 +1088,13 @@ function give_bbp_send_pushover_notification_on_assignment() {
 		$topic   = bbp_get_topic( $_POST['bbps_topic_id'] );
 
 		if ( $user_id > 0 && $user_id != get_current_user_id() ) {
-			$title         = __( 'Easy Digital Downloads: A forum topic has been assigned to you', 'givewp' );
-			$message       = sprintf( __( 'You have been assigned to %1$s by another moderator', 'givewp' ), $topic->post_title );
+			$title         = __( 'Easy Digital Downloads: A forum topic has been assigned to you', 'wi_bbp' );
+			$message       = sprintf( __( 'You have been assigned to %1$s by another moderator', 'wi_bbp' ), $topic->post_title );
 			$user_push_key = get_user_meta( $user_id, 'ckpn_user_key', true );
 
 			if ( $user_push_key ) {
 				$url       = $topic->guid;
-				$url_title = __( 'View Topic', 'givewp' );
+				$url_title = __( 'View Topic', 'wi_bbp' );
 
 				$args = array(
 					'title'     => $title,
@@ -1113,4 +1110,4 @@ function give_bbp_send_pushover_notification_on_assignment() {
 	}
 }
 
-add_action( 'init', 'give_bbp_send_pushover_notification_on_assignment' );
+add_action( 'init', 'wi_bbp_send_pushover_notification_on_assignment' );
