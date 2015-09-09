@@ -1,8 +1,6 @@
 <?php
 /**
  * Actions
- *
- * @package        EDD\BBP\Actions
  * @since          1.0.0
  */
 

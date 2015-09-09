@@ -20,13 +20,13 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 	/**
 	 * Main GIVE_BBP class
 	 *
-	 * @since        2.1
+	 * @since        1.0
 	 */
 	class Give_BBP {
 
 		/**
 		 * @var            Give_BBP $instance The one true Give_BBP
-		 * @since        2.1
+		 * @since        1.0
 		 */
 		private static $instance;
 
@@ -35,7 +35,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Get active instance
 		 *
 		 * @access        public
-		 * @since         2.1
+		 * @since         1.0
 		 * @return        object self::$instance The one true Give_BBP
 		 */
 		public static function instance() {
@@ -54,7 +54,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Setup plugin constants
 		 *
 		 * @access        private
-		 * @since         2.1
+		 * @since         1.0
 		 * @return        void
 		 */
 		private function setup_constants() {
@@ -70,7 +70,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Include necessary files
 		 *
 		 * @access        private
-		 * @since         2.1
+		 * @since         1.0
 		 * @return        void
 		 */
 		private function includes() {
@@ -90,7 +90,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Run action and filter hooks
 		 *
 		 * @access        private
-		 * @since         2.1
+		 * @since         1.0
 		 * @return        void
 		 */
 		private function hooks() {
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Plugin activation
 		 *
 		 * @access        public
-		 * @since         2.1
+		 * @since         1.0
 		 * @return        void
 		 */
 		function activate() {
@@ -120,7 +120,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Tweak args for subforums
 		 *
 		 * @access        public
-		 * @since         2.1
+		 * @since         1.0
 		 *
 		 * @param        array $args The current arguments
 		 *
@@ -136,7 +136,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * Remove unused admin links
 		 *
 		 * @access        public
-		 * @since         2.1
+		 * @since         1.0
 		 *
 		 * @param        array $links The default links
 		 *
