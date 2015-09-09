@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return        void
  */
-function give_bbp_extend_forum_attributes_mb( $forum_id ) {
+function wi_bbp_extend_forum_attributes_mb( $forum_id ) {
 	// Get out the forum meta
-	$premium_forum = give_bbp_is_premium_forum( $forum_id );
+	$premium_forum = wi_bbp_is_premium_forum( $forum_id );
 
 	if ( $premium_forum ) {
 		$checked = 'checked';
@@ -33,7 +33,7 @@ function give_bbp_extend_forum_attributes_mb( $forum_id ) {
 		$checked = '';
 	}
 
-	$support_forum = give_bbp_is_support_forum( $forum_id );
+	$support_forum = wi_bbp_is_support_forum( $forum_id );
 
 	if ( $support_forum ) {
 		$checked1 = 'checked';
@@ -63,7 +63,7 @@ add_action( 'bbp_forum_metabox', 'bbps_extend_forum_attributes_mb' );
  *
  * @return        int $forum_id The ID of this forum
  */
-function give_bbp_forum_attributes_mb_save( $forum_id ) {
+function wi_bbp_forum_attributes_mb_save( $forum_id ) {
 	//get out the forum meta
 	$premium_forum = get_post_meta( $forum_id, '_bbps_is_premium' );
 	$support_forum = get_post_meta( $forum_id, '_bbps_is_support' );
@@ -103,7 +103,7 @@ add_action( 'bbp_forum_attributes_metabox_save', 'bbps_forum_attributes_mb_save'
  *
  * @return        array $newoptions The sanitized input
  */
-function give_bbp_validate_checkbox_group( $input ) {
+function wi_bbp_validate_checkbox_group( $input ) {
 	// Update only the needed options
 	foreach ( $input as $key => $value ) {
 		$newoptions[ $key ] = $value;
@@ -123,7 +123,7 @@ function give_bbp_validate_checkbox_group( $input ) {
  *
  * @return        array $newoptions The sanitized input
  */
-function give_bbp_validate_options( $input ) {
+function wi_bbp_validate_options( $input ) {
 	$options = get_option( '_bbps_reply_count' );
 
 	$i = 1;

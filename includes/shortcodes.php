@@ -31,12 +31,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return string
  */
-function give_bbp_dashboard_shortcode( $atts, $content = null ) {
+function wi_bbp_dashboard_shortcode( $atts, $content = null ) {
 	global $user_ID;
 
 	// Bail if not logged in
 	if ( ! is_user_logged_in() ) {
-		return give_login_form();
+		return wi_login_form();
 	}
 
 	// Bail if current user isn't a moderator
@@ -45,16 +45,16 @@ function give_bbp_dashboard_shortcode( $atts, $content = null ) {
 	}
 
 	//Ensure bootstrap tabs output
-	wp_enqueue_script( 'edd-checkout-global', GIVE_BBP_URL . 'assets/js/tab.js', array( 'jquery' ) );
+	wp_enqueue_script( 'edd-checkout-global', BB_SUPPORT_URL . 'assets/js/tab.js', array( 'jquery' ) );
 
 	// Show ticket overview for all mods
-	$mods = give_bbp_get_all_mods(); ?>
+	$mods = wi_bbp_get_all_mods(); ?>
 
 	<?php if ( $mods ) : ?>
 		<div class="row" id="mods-grid">
 			<?php foreach ( $mods as $mod ) : ?>
 
-				<?php $ticket_count = give_bbp_count_tickets_of_mod( $mod->ID ); ?>
+				<?php $ticket_count = wi_bbp_count_tickets_of_mod( $mod->ID ); ?>
 
 				<div class="mod col-xs-6 col-sm-3">
 					<div class="mod-gravatar"><?php echo get_avatar( $mod->ID, 75 ); ?></div>
@@ -346,7 +346,7 @@ function give_bbp_dashboard_shortcode( $atts, $content = null ) {
 								</tr>
 							<?php endwhile; ?>
 						</table>
-						<input type="hidden" name="give_action" value="remove_ticket_pending_status" />
+						<input type="hidden" name="wi_action" value="remove_ticket_pending_status" />
 						<input type="submit" value="Remove Pending Status" />
 						<?php wp_reset_postdata(); ?>
 					</form>
@@ -426,8 +426,8 @@ function give_bbp_dashboard_shortcode( $atts, $content = null ) {
 							<?php $parent = get_post_field( 'post_parent', get_the_ID() ); ?>
 							<?php $row_class = ( $parent == 499 ) ? 'danger' : ''; ?>
 
-							<?php $assignee_id = give_bbp_get_topic_assignee_id( get_the_ID() ); ?>
-							<?php $assignee_name = give_bbp_get_topic_assignee_name( $assignee_id ); ?>
+							<?php $assignee_id = wi_bbp_get_topic_assignee_id( get_the_ID() ); ?>
+							<?php $assignee_name = wi_bbp_get_topic_assignee_name( $assignee_id ); ?>
 							<tr class="<?php echo $row_class; ?>">
 								<td>
 									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
@@ -457,8 +457,8 @@ function give_bbp_dashboard_shortcode( $atts, $content = null ) {
 							<?php $parent = get_post_field( 'post_parent', get_the_ID() ); ?>
 							<?php $row_class = ( $parent == 499 ) ? 'danger' : ''; ?>
 
-							<?php $assignee_id = give_bbp_get_topic_assignee_id( get_the_ID() ); ?>
-							<?php $assignee_name = give_bbp_get_topic_assignee_name( $assignee_id ); ?>
+							<?php $assignee_id = wi_bbp_get_topic_assignee_id( get_the_ID() ); ?>
+							<?php $assignee_name = wi_bbp_get_topic_assignee_name( $assignee_id ); ?>
 							<tr class="<?php echo $row_class; ?>">
 								<td>
 									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
@@ -496,7 +496,7 @@ function give_bbp_dashboard_shortcode( $atts, $content = null ) {
 	return ob_get_clean();
 }
 
-add_shortcode( 'bbps_dashboard', 'give_bbp_dashboard_shortcode' );
+add_shortcode( 'bbps_dashboard', 'wi_bbp_dashboard_shortcode' );
 
 
 /**
@@ -505,7 +505,7 @@ add_shortcode( 'bbps_dashboard', 'give_bbp_dashboard_shortcode' );
  * @param      $atts
  * @param null $content
  */
-function give_bbp_support_tickets( $atts, $content = null ) {
+function wi_bbp_support_tickets( $atts, $content = null ) {
 
 	$tickets = get_posts( array(
 		'post_type' => 'topic',
@@ -543,4 +543,4 @@ function give_bbp_support_tickets( $atts, $content = null ) {
 
 }
 
-add_shortcode( 'support_tickets', 'give_bbp_support_tickets' );
+add_shortcode( 'support_tickets', 'wi_bbp_support_tickets' );

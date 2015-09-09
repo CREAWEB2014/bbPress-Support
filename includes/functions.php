@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return        bool $return True if premium, false otherwise
  */
-function give_bbp_is_premium_forum( $forum_id ) {
+function wi_bbp_is_premium_forum( $forum_id ) {
 	$premium_forum = get_post_meta( $forum_id, '_bbps_is_premium', true );
 
 	if ( $premium_forum == 1 ) {
@@ -31,7 +31,7 @@ function give_bbp_is_premium_forum( $forum_id ) {
 		$return = false;
 	}
 
-	return apply_filters( 'give_bbp_is_premium_forum', $return, $forum_id );
+	return apply_filters( 'wi_bbp_is_premium_forum', $return, $forum_id );
 }
 
 
@@ -44,7 +44,7 @@ function give_bbp_is_premium_forum( $forum_id ) {
  *
  * @return        bool $return True if support forum, false otherwise
  */
-function give_bbp_is_support_forum( $forum_id ) {
+function wi_bbp_is_support_forum( $forum_id ) {
 	$support_forum = get_post_meta( $forum_id, '_bbps_is_support', true );
 
 	if ( $support_forum == 1 ) {
@@ -53,7 +53,7 @@ function give_bbp_is_support_forum( $forum_id ) {
 		$return = false;
 	}
 
-	return apply_filters( 'give_bbp_is_support_forum', $return, $forum_id );
+	return apply_filters( 'wi_bbp_is_support_forum', $return, $forum_id );
 }
 
 /**
@@ -65,8 +65,8 @@ function give_bbp_is_support_forum( $forum_id ) {
  *
  * @return        bool $return True if support forum, false otherwise
  */
-function give_bbp_d_is_support_forum( $forum_id ) {
-	return give_bbp_is_support_forum( $forum_id );
+function wi_bbp_d_is_support_forum( $forum_id ) {
+	return wi_bbp_is_support_forum( $forum_id );
 }
 
 
@@ -76,7 +76,7 @@ function give_bbp_d_is_support_forum( $forum_id ) {
  * @since        1.0.0
  * @return        bool $return True if premium topic, false otherwise
  */
-function give_bbp_is_premium_topic() {
+function wi_bbp_is_premium_topic() {
 	$is_premium = get_post_meta( bbp_get_topic_forum_id(), '_bbps_is_premium' );
 
 	if ( $is_premium[0] ) {
@@ -98,7 +98,7 @@ function give_bbp_is_premium_topic() {
  *
  * @return        bool $return True if resolved, false otherwise
  */
-function give_bbp_is_resolved( $topic_id ) {
+function wi_bbp_is_resolved( $topic_id ) {
 	$is_resolved = get_post_meta( $topic_id, '_bbps_topic_status', true );
 
 	if ( $is_resolved == 2 ) {
@@ -116,7 +116,7 @@ function give_bbp_is_resolved( $topic_id ) {
  *
  * @param $args
  */
-function give_bbp_remove_topic_commas( $args ) {
+function wi_bbp_remove_topic_commas( $args ) {
 
 	$args['count_sep'] = '';
 	$args['sep']       = '';
@@ -125,7 +125,7 @@ function give_bbp_remove_topic_commas( $args ) {
 
 }
 
-add_filter( 'bbp_after_get_topic_tag_list_parse_args', 'give_bbp_remove_topic_commas', 10, 1 );
+add_filter( 'bbp_after_get_topic_tag_list_parse_args', 'wi_bbp_remove_topic_commas', 10, 1 );
 
 /**
  * Customize Subforums list
@@ -134,7 +134,7 @@ add_filter( 'bbp_after_get_topic_tag_list_parse_args', 'give_bbp_remove_topic_co
  *
  * @return mixed
  */
-function give_bbp_customize_subforums_list( $args ) {
+function wi_bbp_customize_subforums_list( $args ) {
 
 	$args['show_topic_count'] = false;
 	$args['show_reply_count'] = false;
@@ -145,4 +145,4 @@ function give_bbp_customize_subforums_list( $args ) {
 
 }
 
-add_filter( 'bbp_after_list_forums_parse_args', 'give_bbp_customize_subforums_list', 10, 1 );
+add_filter( 'bbp_after_list_forums_parse_args', 'wi_bbp_customize_subforums_list', 10, 1 );

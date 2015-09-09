@@ -15,35 +15,46 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'Give_BBP' ) ) {
+if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 
 	/**
 	 * Main GIVE_BBP class
 	 *
 	 * @since        1.0
 	 */
-	class Give_BBP {
+	class WordImpress_bbSupport {
 
 		/**
-		 * @var            Give_BBP $instance The one true Give_BBP
+		 * @var            WordImpress_bbSupport $instance The one true WordImpress_bbSupport
 		 * @since        1.0
 		 */
 		private static $instance;
 
+		/**
+		 * Settings Object
+		 *
+		 * @var object
+		 * @since 1.0
+		 */
+		public $settings;
 
 		/**
 		 * Get active instance
 		 *
 		 * @access        public
 		 * @since         1.0
-		 * @return        object self::$instance The one true Give_BBP
+		 * @return        object self::$instance The one true WordImpress_bbSupport
 		 */
 		public static function instance() {
+
 			if ( ! self::$instance ) {
-				self::$instance = new Give_BBP();
+				self::$instance = new WordImpress_bbSupport();
 				self::$instance->setup_constants();
-				self::$instance->includes();
 				self::$instance->hooks();
+
+				self::$instance->includes();
+				self::$instance->settings = new WordImpress_bbSupport_Settings();
+
 			}
 
 			return self::$instance;
@@ -59,10 +70,13 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 */
 		private function setup_constants() {
 			// Plugin path
-			define( 'GIVE_BBP_DIR', plugin_dir_path( __FILE__ ) );
-
+			if ( ! defined( 'BB_SUPPORT_DIR' ) ) {
+				define( 'BB_SUPPORT_DIR', plugin_dir_path( __FILE__ ) );
+			}
 			// Plugin URL
-			define( 'GIVE_BBP_URL', plugin_dir_url( __FILE__ ) );
+			if ( ! defined( 'BB_SUPPORT_URL' ) ) {
+				define( 'BB_SUPPORT_URL', plugin_dir_url( __FILE__ ) );
+			}
 		}
 
 
@@ -74,14 +88,15 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * @return        void
 		 */
 		private function includes() {
-			require_once GIVE_BBP_DIR . 'includes/actions.php';
-			require_once GIVE_BBP_DIR . 'includes/functions.php';
-			require_once GIVE_BBP_DIR . 'includes/shortcodes.php';
-			require_once GIVE_BBP_DIR . 'includes/support-functions.php';
+			require_once BB_SUPPORT_DIR . 'includes/actions.php';
+			require_once BB_SUPPORT_DIR . 'includes/functions.php';
+			require_once BB_SUPPORT_DIR . 'includes/shortcodes.php';
+			require_once BB_SUPPORT_DIR . 'includes/support-functions.php';
 
 			if ( is_admin() ) {
-				require_once GIVE_BBP_DIR . 'includes/admin/functions.php';
-				require_once GIVE_BBP_DIR . 'includes/admin/bbps-admin.php';
+				require_once BB_SUPPORT_DIR . 'includes/admin/functions.php';
+				require_once BB_SUPPORT_DIR . 'includes/admin/bbps-admin.php';
+				require_once BB_SUPPORT_DIR . 'includes/admin/register-settings.php';
 			}
 		}
 
@@ -112,7 +127,7 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 		 * @return        void
 		 */
 		function activate() {
-			do_action( 'give_bbp_activation' );
+			do_action( 'wi_bbp_activation' );
 		}
 
 
@@ -157,4 +172,4 @@ if ( ! class_exists( 'Give_BBP' ) ) {
 	}
 }
 
-return Give_BBP::instance();
+return WordImpress_bbSupport::instance();

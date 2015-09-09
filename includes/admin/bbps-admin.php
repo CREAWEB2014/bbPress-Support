@@ -3,7 +3,7 @@
  * Add admin metabox
  *
  * @since          1.0
- * @package        EDD\BBP\Admin\MetaBox
+ * @package        BBP\Admin\MetaBox
  */
 
 
@@ -24,11 +24,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bbps_extend_forum_attributes_mb( $forum_id ) {
 
-	$support_forum = give_bbp_is_support_forum( $forum_id );
+	$support_forum = wi_bbp_is_support_forum( $forum_id );
 	?>
 
 	<p>
-		<strong>Support Forum:</strong>
+		<strong><?php __( 'Support Forum:', 'wi_bbp' ); ?></strong>
 		<input type="checkbox" name="bbps-support-forum" value="1"<?php checked( true, $support_forum ); ?>/>
 	</p>
 
