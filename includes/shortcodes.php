@@ -536,7 +536,7 @@ function wi_bbp_support_tickets( $atts, $content = null ) {
 
 	else :
 		?>
-		<p class="give-support-no-tickets">You have not opened any support tickets. Need help?
+		<p class="give-support-no-tickets"><?php _e( 'You have not opened any support tickets. Need help?', 'bbpress_support' ); ?>
 			<a href="<?php echo home_url( '/support' ); ?>">Open a ticket in the forums.</a></p>
 		<?php
 	endif;

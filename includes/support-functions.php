@@ -613,45 +613,33 @@ function wi_bbp_sidebar() {
 
 		<p class="bbp-user-reply-count"><?php printf( 'Replies Created: %s', bbp_get_user_reply_count_raw( $user_id ) ); ?></p>
 
-		<div class="rcp_support_status">
-			<h4>Priority Support Access</h4>
-			<?php if ( function_exists( 'rcp_is_active' ) ) {
-				if ( rcp_is_active( $user_id ) ) { ?>
-					<p>Has <strong>Priority Support</strong> access.</p>
-				<?php } elseif ( rcp_is_expired( $user_id ) ) { ?>
-					<p><strong>Priority Support</strong> access has <span style="color:red;">expired</span>.</p>
-				<?php } else { ?>
-					<p>Has no priority support accesss</p>
-				<?php }
-			} ?>
-		</div>
-		<!-- /.rcp_support_status -->
 
 		<div class="wi_users_purchases">
-			<h4>User's Purchases:</h4>
+			<h3><?php _e('User\'s Purchases:', 'wi_bbp'); ?></h3>
 			<?php
-			$purchases = wi_get_users_purchases( $user_data->user_email, 100, false, 'any' );
+			$purchases = edd_get_users_purchases( $user_data->user_email, 100, false, 'any' );
 			if ( $purchases ) :
 				echo '<ul>';
 				foreach ( $purchases as $purchase ) {
 
 					echo '<li>';
 
-					echo '<strong><a href="' . admin_url( 'edit.php?post_type=download&page=give-payment-history&view=view-order-details&id=' . $purchase->ID ) . '">#' . $purchase->ID . ' - ' . wi_get_payment_status( $purchase, true ) . '</a></strong><br/>';
+					echo '<strong><a href="' . admin_url( 'edit.php?post_type=download&page=give-payment-history&view=view-order-details&id=' . $purchase->ID ) . '">#' . $purchase->ID . ' - ' . edd_get_payment_status( $purchase, true ) . '</a></strong><br/>';
 
-					$downloads = wi_get_payment_meta_downloads( $purchase->ID );
+					$downloads = edd_get_payment_meta_downloads( $purchase->ID );
 					foreach ( $downloads as $download ) {
 						echo get_the_title( $download['id'] ) . ' - ' . date( 'F j, Y', strtotime( $purchase->post_date ) ) . '<br/>';
 					}
 
-					if ( function_exists( 'wi_software_licensing' ) ) {
-						$licenses = wi_software_licensing()->get_licenses_of_purchase( $purchase->ID );
+					//Check license key
+					if ( function_exists( 'edd_software_licensing' ) ) {
+						$licenses = edd_software_licensing()->get_licenses_of_purchase( $purchase->ID );
 						if ( $licenses ) {
 							echo '<strong>Licenses:</strong><br/>';
 							foreach ( $licenses as $license ) {
-								$key = wi_software_licensing()->get_license_key( $license->ID );
+								$key = edd_software_licensing()->get_license_key( $license->ID );
 								echo '<a href="' . admin_url( 'edit.php?post_type=download&page=give-licenses&s=' . $key ) . '">' . $key . '</a>';
-								echo ' - ' . wi_software_licensing()->get_license_status( $license->ID );
+								echo ' - ' . edd_software_licensing()->get_license_status( $license->ID );
 								echo '<br/>';
 							}
 						}
@@ -723,6 +711,8 @@ function wi_bbp_get_topic_assignee_name( $user_id = null ) {
  *
  * @since        1.0.0
  *
+ * @TODO         : Slack integration
+ *
  * @param        int  $topic_id     The ID of this topic
  * @param        int  $forum_id     The ID of the forum this topic belongs to
  * @param        bool $anonymous_data
@@ -758,7 +748,7 @@ function wi_bbp_send_priority_to_slack( $topic_id = 0, $forum_id = 0, $anonymous
 	wp_remote_post( 'https://hooks.slack.com/services/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', $args );
 }
 
-add_action( 'bbp_new_topic', 'wi_bbp_send_priority_to_slack', 10, 4 );
+//add_action( 'bbp_new_topic', 'wi_bbp_send_priority_to_slack', 10, 4 );
 
 
 /**
@@ -823,6 +813,7 @@ add_action( 'wi_bbp_sidebar', 'wi_bbp_display_connected_docs' );
 /**
  * Find all tickets that are 10 days old, close them, and send notices to the customer
  *
+ * @TODO         : Get this working?
  * @since        1.0
  * @return        void
  */
@@ -903,6 +894,7 @@ add_action( 'wi_daily_scheduled_events', 'wi_bbp_close_old_tickets_and_notify' )
  * Emails a moderator a reminder when the Ping Assignee button is clicked
  *
  * @since        1.0
+ *
  * @return        void
  */
 function wi_bbp_ping_topic_assignee() {
@@ -922,6 +914,9 @@ EMAILMSG;
 	}
 }
 
+/**
+ *
+ */
 function wi_bbp_common_issues() {
 
 	if ( bbp_is_topic_edit() ) {
