@@ -108,6 +108,7 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 				require_once BB_SUPPORT_DIR . 'includes/admin/functions.php';
 				require_once BB_SUPPORT_DIR . 'includes/admin/bbps-admin.php';
 				require_once BB_SUPPORT_DIR . 'includes/admin/register-settings.php';
+				require_once BB_SUPPORT_DIR . 'includes/emails/reply-notifications.php';
 			}
 		}
 
