@@ -2,8 +2,6 @@
 /**
  * Admin Functions
  *
- * @package        EDD\BBP\Admin\Functions
- * @since          2.1
  */
 
 
@@ -15,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * The support forum checkbox will add resolved / not resolved status to all forums.
- * The premium forum will create a support forum that can only be viewed by that user and admin users.
  *
  * @since        1.0
  *
@@ -24,14 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return        void
  */
 function wi_bbp_extend_forum_attributes_mb( $forum_id ) {
-	// Get out the forum meta
-	$premium_forum = wi_bbp_is_premium_forum( $forum_id );
-
-	if ( $premium_forum ) {
-		$checked = 'checked';
-	} else {
-		$checked = '';
-	}
 
 	$support_forum = wi_bbp_is_support_forum( $forum_id );
 
@@ -44,7 +33,7 @@ function wi_bbp_extend_forum_attributes_mb( $forum_id ) {
 	<hr />
 
 	<p>
-		<strong>Support Forum:</strong>
+		<strong><?php _e('Support Forum:', 'wi_bbp'); ?></strong>
 		<input type="checkbox" name="bbps-support-forum" value="1" <?php echo $checked1; ?>/>
 		<br />
 	</p>
@@ -64,28 +53,10 @@ add_action( 'bbp_forum_metabox', 'bbps_extend_forum_attributes_mb' );
  * @return        int $forum_id The ID of this forum
  */
 function wi_bbp_forum_attributes_mb_save( $forum_id ) {
-	//get out the forum meta
-	$premium_forum = get_post_meta( $forum_id, '_bbps_is_premium' );
-	$support_forum = get_post_meta( $forum_id, '_bbps_is_support' );
-
-	// If we have a value then save it
-	if ( ! empty( $_POST['bbps-premium-forum'] ) ) {
-		update_post_meta( $forum_id, '_bbps_is_premium', $_POST['bbps-premium-forum'] );
-	}
-
-	// The forum used to be premium now its not
-	if ( ! empty( $premium_forum ) && empty( $_POST['bbps-premium-forum'] ) ) {
-		update_post_meta( $forum_id, '_bbps_is_premium', 0 );
-	}
-
+	
 	// Support options
 	if ( ! empty( $_POST['bbps-support-forum'] ) ) {
 		update_post_meta( $forum_id, '_bbps_is_support', $_POST['bbps-support-forum'] );
-	}
-
-	// The forum used to be premium now its not
-	if ( ! empty( $premium_forum ) && empty( $_POST['bbps-support-forum'] ) ) {
-		update_post_meta( $forum_id, '_bbps_is_support', 0 );
 	}
 
 	return $forum_id;

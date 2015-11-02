@@ -24,15 +24,15 @@ function wi_bbp_actions() {
 	}
 
 	if ( ! empty( $_POST['bbps_support_topic_assign'] ) ) {
-		wi_bbp_assign_topic( $_POST );
+		wi_bbp_assign_topic();
 	}
 
 	if ( ! empty( $_POST['bbps_support_submit'] ) ) {
-		wi_bbp_update_status( $_POST );
+		wi_bbp_update_status();
 	}
 
 	if ( ! empty( $_POST['bbps_topic_ping_submit'] ) ) {
-		wi_bbp_ping_topic_assignee( $_POST );
+		wi_bbp_ping_topic_assignee();
 	}
 
 	if ( ! empty( $_POST['bbps_topic_keep_open_submit'] ) ) {

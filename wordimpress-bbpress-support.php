@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name:       WordImpress bbPress Support
- * Plugin URI:        https://github.com/WordImpress/give-bbpress-support/
- * Description:       Extends bbPress to provide a Support dashboard interface
+ * Plugin URI:        https://github.com/WordImpress/bbpress-support/
+ * Description:       Extends bbPress to provide a robust Support specific functionality and a convenient dashboard interface
  * Version:           1.0
  * Author:            WordImpress
  * Author URI:        https://wordimpress.com/
+ * Text Domain: wi_bbp
+ * Domain Path: /languages
  */
 
 
@@ -47,13 +49,16 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 		 */
 		public static function instance() {
 
-			if ( ! self::$instance ) {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WordImpress_bbSupport ) ) {
 				self::$instance = new WordImpress_bbSupport();
 				self::$instance->setup_constants();
 				self::$instance->hooks();
 
+				add_action( 'widgets_init', array( self::$instance, 'register_widgets' ) );
+				add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+
 				self::$instance->includes();
-				self::$instance->settings = new WordImpress_bbSupport_Settings();
+				//				self::$instance->settings = new WordImpress_bbSupport_Settings();
 
 			}
 
@@ -77,6 +82,11 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 			if ( ! defined( 'BB_SUPPORT_URL' ) ) {
 				define( 'BB_SUPPORT_URL', plugin_dir_url( __FILE__ ) );
 			}
+
+			// Plugin Root File
+			if ( ! defined( 'BB_SUPPORT_FILE' ) ) {
+				define( 'BB_SUPPORT_FILE', __FILE__ );
+			}
 		}
 
 
@@ -89,9 +99,11 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 		 */
 		private function includes() {
 			require_once BB_SUPPORT_DIR . 'includes/actions.php';
+			require_once BB_SUPPORT_DIR . 'includes/scripts.php';
 			require_once BB_SUPPORT_DIR . 'includes/functions.php';
 			require_once BB_SUPPORT_DIR . 'includes/shortcodes.php';
 			require_once BB_SUPPORT_DIR . 'includes/support-functions.php';
+			require_once BB_SUPPORT_DIR . 'includes/widget-user-status.php';
 
 			if ( is_admin() ) {
 				require_once BB_SUPPORT_DIR . 'includes/admin/functions.php';
@@ -169,6 +181,49 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 
 			return $links;
 		}
+
+
+		/**
+		 * Loads the plugin language files
+		 *
+		 * @access public
+		 * @since  1.0
+		 * @return void
+		 */
+		public function load_textdomain() {
+			// Set filter for Give's languages directory
+			$give_lang_dir = dirname( plugin_basename( BB_SUPPORT_FILE ) ) . '/languages/';
+			$give_lang_dir = apply_filters( 'wi_bbp_languages_directory', $give_lang_dir );
+
+			// Traditional WordPress plugin locale filter
+			$locale = apply_filters( 'plugin_locale', get_locale(), 'give' );
+			$mofile = sprintf( '%1$s-%2$s.mo', 'give', $locale );
+
+			// Setup paths to current locale file
+			$mofile_local  = $give_lang_dir . $mofile;
+			$mofile_global = WP_LANG_DIR . '/bbpress-support/' . $mofile;
+
+			if ( file_exists( $mofile_global ) ) {
+				// Look in global /wp-content/languages/give folder
+				load_textdomain( 'give', $mofile_global );
+			} elseif ( file_exists( $mofile_local ) ) {
+				// Look in local /wp-content/plugins/give/languages/ folder
+				load_textdomain( 'give', $mofile_local );
+			} else {
+				// Load the default language files
+				load_plugin_textdomain( 'give', false, $give_lang_dir );
+			}
+		}
+
+
+		/**
+		 *  Register widgets
+		 */
+		function register_widgets() {
+			register_widget( 'WordImpress_bbSupport_User_Status' );
+		}
+
+
 	}
 }
 

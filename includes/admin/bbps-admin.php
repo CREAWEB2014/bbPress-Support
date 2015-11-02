@@ -26,10 +26,9 @@ function bbps_extend_forum_attributes_mb( $forum_id ) {
 
 	$support_forum = wi_bbp_is_support_forum( $forum_id );
 	?>
-
+	<hr>
 	<p>
-		<strong><?php __( 'Support Forum:', 'wi_bbp' ); ?></strong>
-		<input type="checkbox" name="bbps-support-forum" value="1"<?php checked( true, $support_forum ); ?>/>
+		<label for="wi-bbp-support-forum-checkbox"><strong><?php _e( 'Support Forum:', 'wi_bbp' ); ?></strong> </label>&nbsp; <input id="wi-bbp-support-forum-checkbox" type="checkbox" name="bbps-support-forum" value="1"<?php checked( true, $support_forum ); ?>/>
 	</p>
 
 	<?php
