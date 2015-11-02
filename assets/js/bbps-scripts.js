@@ -7,7 +7,7 @@
 jQuery.noConflict();
 (function ( $ ) {
 
-	
+
 
 
 })( jQuery );
