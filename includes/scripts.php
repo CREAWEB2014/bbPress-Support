@@ -22,18 +22,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0
  * @global $give_options
  * @global $post
- * @return void
+ * @return mixed|void
  */
 function bbps_load_scripts() {
 
-	//Only enqueue on bbPress pages
-	if ( ! is_bbpress() ) {
-		return false;
-	}
+	$localize_bbps = array(
+		'enable_topic_flags' => wi_bbp_get_option( 'enable_topic_flags' ),
+		'topic_title_flags'  => wi_bbp_get_option( 'flag_topics_words_group' )
+	);
 
-	wp_register_script( 'bbpress-support-js', BB_SUPPORT_URL . 'assets/js/bbps-scripts.js', array( 'jquery' ) );
+	wp_register_script( 'bbpress-support-js', BB_SUPPORT_URL . 'assets/js/bbps-scripts.js', array( 'jquery' ), null, true );
 	wp_enqueue_script( 'bbpress-support-js' );
 
+	wp_localize_script( 'bbpress-support-js', 'bbps_vars', $localize_bbps );
 
 }
 

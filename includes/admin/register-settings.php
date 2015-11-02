@@ -90,29 +90,49 @@ class WordImpress_bbSupport_Settings {
 	function add_options_page_metabox() {
 		$cmb = new_cmb2_box( array(
 			'id'         => $this->metabox_id,
-			'hookup'     => false,
-			'cmb_styles' => false,
+			'show_names'   => true, // Show field names on the left
 			'show_on'    => array(
 				// These are important, don't remove
 				'key'   => 'options-page',
 				'value' => array( $this->key, )
 			),
 		) );
-		// Set our CMB2 fields
+
+		//Topic Flags
 		$cmb->add_field( array(
-			'name'    => __( 'Test Text', 'wi_bbp' ),
-			'desc'    => __( 'field description (optional)', 'wi_bbp' ),
-			'id'      => 'test_text',
-			'type'    => 'text',
-			'default' => 'Default Text',
+		    'name' => __('Topic Title Flags', 'wi_bbp'),
+		    'desc' => __( 'When a user types any of the words you flag a message will display and they will not be able to submit a support topic with the word contained in the topic heading input. The message prompts them to perform an alternative action such as how to properly request a refund or refer to documentation.', 'wi_bbp' ),
+		    'id'   => 'enable_topic_flags',
+		    'type' => 'checkbox'
 		) );
-		$cmb->add_field( array(
-			'name'    => __( 'Test Color Picker', 'wi_bbp' ),
-			'desc'    => __( 'field description (optional)', 'wi_bbp' ),
-			'id'      => 'test_colorpicker',
-			'type'    => 'colorpicker',
-			'default' => '#bada55',
+
+		$flag_topic_words = $cmb->add_field( array(
+			'id'          => 'flag_topics_words_group',
+			'type'        => 'group',
+			'options'     => array(
+				'group_title'   => __( 'Flag {#}', 'wi_bbp' ), // since version 1.1.4, {#} gets replaced by row number
+				'add_button'    => __( 'Add Another Entry', 'wi_bbp' ),
+				'remove_button' => __( 'Remove Entry', 'wi_bbp' ),
+				'sortable'      => true, // beta
+				// 'closed'     => true, // true to have the groups closed by default
+			),
 		) );
+
+		$cmb->add_group_field( $flag_topic_words, array(
+			'name' => 'Flag Word(s)',
+			'desc' => 'Enter in one or more words you would like to flag. Multiple words need to be separated by commas. ',
+			'id'   => 'flag_words',
+			'type' => 'text',
+		) );
+
+		$cmb->add_group_field( $flag_topic_words, array(
+			'name' => 'Message',
+			'desc' => 'This message will display when one of the words above is detected.',
+			'id'   => 'flag_message',
+			'type' => 'wysiwyg',
+		) );
+
+
 	}
 
 	/**
@@ -144,7 +164,7 @@ function wi_bbp_admin() {
 		$object->hooks();
 	}
 
-return $object;
+	return $object;
 }
 
 /**

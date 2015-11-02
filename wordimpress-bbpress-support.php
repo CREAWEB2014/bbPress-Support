@@ -104,11 +104,11 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 			require_once BB_SUPPORT_DIR . 'includes/shortcodes.php';
 			require_once BB_SUPPORT_DIR . 'includes/support-functions.php';
 			require_once BB_SUPPORT_DIR . 'includes/widget-user-status.php';
+			require_once BB_SUPPORT_DIR . 'includes/admin/register-settings.php';
 
 			if ( is_admin() ) {
 				require_once BB_SUPPORT_DIR . 'includes/admin/functions.php';
 				require_once BB_SUPPORT_DIR . 'includes/admin/bbps-admin.php';
-				require_once BB_SUPPORT_DIR . 'includes/admin/register-settings.php';
 			}
 		}
 

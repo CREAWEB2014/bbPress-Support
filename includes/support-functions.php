@@ -915,7 +915,7 @@ EMAILMSG;
 }
 
 /**
- *
+ * Common Issues
  */
 function wi_bbp_common_issues() {
 
@@ -923,26 +923,7 @@ function wi_bbp_common_issues() {
 		return;
 	}
 	?>
-	<script type="text/javascript">
-		jQuery( document ).ready( function ( $ ) {
-			$( '#bbp-new-topic-fields' ).hide();
-			//Hide/Show Answers from
-			$( '#give-bbp-common-issues-select' ).change( function () {
-				var val = $( this ).val();
-				$( '#give-common-ticket-answers div' ).hide();
-				$( '#give-common-ticket-answers #give-common-issue-' + val ).show();
-			} );
-			$( 'input[name="give-bbp-docs-help"]' ).change( function () {
-				if ( $( this ).val() == '3' ) {
-					$( '#bbp-new-topic-fields' ).hide();
-					$( '#give-bbp-google-search' ).show();
-				} else {
-					$( '#give-bbp-google-search' ).hide();
-					$( '#bbp-new-topic-fields' ).show();
-				}
-			} );
-		} );
-	</script>
+
 	<div id="give-bbp-common-issues">
 		<div id="give-bbp-common-issues">
 			<label>Is your ticket about one of these issues?</label>
@@ -951,7 +932,6 @@ function wi_bbp_common_issues() {
 				<option value="install-addon">I do not know how to install the add-on I purchased</option>
 				<option value="pending">I need support for the Give Core plugin</option>
 				<option value="emails">Email receipts not being sent to customers</option>
-				<option value="fes-upload">File upload error in Frontend Submissions</option>
 				<option value="no">No, I need to open a new ticket</option>
 			</select>
 
