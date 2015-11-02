@@ -99,6 +99,7 @@ if ( ! class_exists( 'WordImpress_bbSupport' ) ) {
 		 */
 		private function includes() {
 			require_once BB_SUPPORT_DIR . 'includes/actions.php';
+			require_once BB_SUPPORT_DIR . 'includes/scripts.php';
 			require_once BB_SUPPORT_DIR . 'includes/functions.php';
 			require_once BB_SUPPORT_DIR . 'includes/shortcodes.php';
 			require_once BB_SUPPORT_DIR . 'includes/support-functions.php';
