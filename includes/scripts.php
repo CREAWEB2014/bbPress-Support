@@ -69,6 +69,12 @@ function give_register_styles() {
  */
 function give_load_admin_scripts( $hook ) {
 
+	//Settings scripts
+	if($hook == 'toplevel_page_wi_bbp_options'){
+		wp_register_style( 'bbp-support-settings-css', BB_SUPPORT_URL . 'assets/css/bbps-admin.css' );
+		wp_enqueue_style( 'bbp-support-settings-css' );
+	}
+
 
 }
 

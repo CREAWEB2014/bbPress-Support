@@ -116,7 +116,7 @@ function wi_bbp_generate_status_options( $topic_id ) {
 	$status  = get_post_meta( $topic_id, '_bbps_topic_status', true );
 	$default = 1;
 
-	// Only use the default value as selected if the topic doesnt ahve a status set
+	// Only use the default value as selected if the topic doesnt have a status set
 	if ( $status ) {
 		$value = $status;
 	} else {

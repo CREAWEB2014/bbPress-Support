@@ -7,9 +7,11 @@
 var bbps_vars;
 (function ( $ ) {
 
+	console.log(bbps_vars);
 
 	//Topic Flags
 	$( '#bbp_topic_title' ).on( 'blur', function () {
+
 
 		//Sanity check
 		if ( bbps_vars.enable_topic_flags !== 'on' ) {
@@ -18,7 +20,7 @@ var bbps_vars;
 
 		//Cleanup before starting
 		$('.bbp-template-notice' ).remove();
-		$( '.bbp-submit-wrapper' ).show();
+		$( '.bbp-submit-wrapper, #wp-bbp_topic_content-wrap' ).show();
 
 		//These are the words typed by the user into an array
 		var topic_words = $( this ).val().toLowerCase().split( ' ' );
@@ -39,7 +41,7 @@ var bbps_vars;
 					//Flag word detected so append message
 					$( '.bbp-the-content-wrapper' ).prepend( '<div class="bbp-template-notice bbp-topic-flag-notice"><p class="bbp-support-alert">' + flag_message + '</p></div>' );
 					//Prevent Submission
-					$( '.bbp-submit-wrapper' ).hide();
+					$( '.bbp-submit-wrapper, #wp-bbp_topic_content-wrap' ).hide();
 
 				}
 
